@@ -80,5 +80,64 @@ router.put('/updateUsername',isAuthenticated,async(req,res)=>{
     )
 }
 )
+router.put('/updatePassword',isAuthenticated,async(req,res)=>{
+    const {password} = req.body;
+    //console.log(username);
+    
+    const user = req.user.id;
+    //console.log(user);
+    
+    if(!user){
+        return res.status(404).json({
+            "message":"Login first"
+        })
+    }
+    const hash = await bcrypt.hash(password,10)
+    await User.findByIdAndUpdate(user,{password:hash},{new:true})
+    res.status(201).json({
+        "message":"Password upadated Successfully"
+    }
+    )
+}
+)
+router.put('/updateFirstname',isAuthenticated,async(req,res)=>{
+    const {firstname} = req.body;
+    //console.log(username);
+    
+    const user = req.user.id;
+    console.log(user);
+    
+    if(!user){
+        return res.status(404).json({
+            "message":"Login first"
+        })
+    }
+    await User.findByIdAndUpdate(user,{firstname:firstname},{new:true})
+    res.status(201).json({
+        "message":"FirstName upadated Successfully"
+    }
+    )
+}
+)
+router.put('/updateLastname',isAuthenticated,async(req,res)=>{
+    const {lastname} = req.body;
+    //console.log(username);
+    
+    const user = req.user.id;
+    console.log(user);
+    
+    if(!user){
+        return res.status(404).json({
+            "message":"Login first"
+        })
+    }
+    //const isExist = await User.findOne({username})
 
+    await User.findByIdAndUpdate(user,{lastname:lastname},{new:true})
+    res.status(201).json({
+        "message":"Lastname upadated Successfully"
+    }
+    )
+}
+)
 export default router
