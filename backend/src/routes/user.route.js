@@ -47,7 +47,7 @@ router.post('/login',async(req,res)=>{
     
     res.cookie("token",token,{
         httpOnly:true,
-        expiresIn: 10000
+        expiresIn: 60000
     })
     //console.log("Token "+token);
     res.status(201).json({
@@ -140,4 +140,7 @@ router.put('/updateLastname',isAuthenticated,async(req,res)=>{
     )
 }
 )
+router.post('/send',async(req,res)=>{
+    
+})
 export default router
