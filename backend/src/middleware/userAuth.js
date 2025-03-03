@@ -6,11 +6,12 @@ const isAuthenticated = (req, res, next) => {
         if (!token) {
             return res.status(401).json({ message: "Login first" });
         }
-        console.log("token part");
         
         const decoded = jwt.verify(token, process.env.JWT_SEC);
         
-        req.user = decoded; 
+        req.user = { userId: decoded.id }
+        console.log(req.user);
+        
 
         next();
     } catch (error) {
