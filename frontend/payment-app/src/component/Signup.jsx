@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios"; // Import axios for making the API call
+import { Link, useNavigation } from "react-router-dom";
+import axios from "axios"; 
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -8,22 +9,20 @@ const Signup = () => {
   const [f, setF] = useState("");
   const [l, setL] = useState("");
   const [error, setError] = useState(""); // To handle errors
-
+  const navigate= useNavigate()
   const auth = async () => {
     try {
-      // Making the POST request to register the user
-      const res = await axios.post("http://localhost:3000/api/v1/user/register", {
-        username: username,
-        password: pass,
-        firstname: f,
-        lastname: l
-      });
-      console.log("Registration successful:", res.data);
-      // You can add redirection or further logic after successful registration
+      const res = await axios.post("http://localhost:3000/api/v1/user/register",{
+        username:username,
+        password:pass,
+        firstname:f,
+        lastname:l
+      })
+      navigate('/dash')
     } catch (error) {
-      console.error("Error during registration:", error);
-      setError("Something went wrong. Please try again."); // Set error message
+      alert(res.data.message)
     }
+    
   };
 
   return (

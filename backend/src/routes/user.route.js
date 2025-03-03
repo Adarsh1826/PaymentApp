@@ -21,6 +21,11 @@ router.post('/register',async(req,res)=>{
         firstname,lastname
     })
     //console.log(newUser);
+    const token = await jwt.sign({id:newUser._id},process.env.JWT_SEC)
+    res.cookie("token",token,{
+        httpOnly:true,
+        expiresIn: 60000
+    })
     res.status(200).json({
         "message":"Registered Succeessfully"
     })
@@ -41,7 +46,7 @@ router.post('/login',async(req,res)=>{
         })
     }
     const token = await jwt.sign({id:isExist._id},process.env.JWT_SEC)
-    //console.log(token);
+    console.log(token);
     
     //console.log(isExist._id);
     

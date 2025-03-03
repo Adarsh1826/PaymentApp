@@ -4,22 +4,21 @@ import { isAuthenticated } from "../middleware/userAuth.js";
 import mongoose from "mongoose";
 const router = Router();
 
-router.get("/getbalance", isAuthenticated, async (req, res) => {
+router.get("/getbalance", isAuthenticated,async (req, res) => {
   try {
-  
-    console.log(req.user.userId);
-    
-    const account = await Account.findOne({userId:req.user.userId});
-    
-    if (!account) {
-      return res.status(404).json({ message: "Account not found" });
+    const accounts = await Account.findOne({userId:req.user.userId});
+
+    if(!accounts){
+      return res.status(411).json({
+        "message":"account not found"
+      })
     }
 
-    res.json({
-      balance: account.balance,
-    });
+    //const balances = accounts.map(account => account.balance); // Extract balances
+
+    res.json({ balance:accounts.balance});
   } catch (error) {
-    console.error("Error fetching account:", error);
+    console.error("Error fetching balances:", error);
     res.status(500).json({ error: error.message || "Internal Server Error" });
   }
 });

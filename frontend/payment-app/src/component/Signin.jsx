@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import axios from "axios"
+import { useNavigate } from 'react-router-dom';
 const Signin = () => {
 
     const[username,setUsername] = useState("")
     const [password,setPassword] = useState("")
+    const navigate = useNavigate()
     
-    // backend call 
     const auth = async () => {
         try {
             const res = await axios.post("http://localhost:3000/api/v1/user/login", {
                 username: username,
                 password: password
             });
-    
-            // Handle successful login
-            alert(res.data.message); // The backend returns "Logged in successfully"
+            console.log(res);
+            
+            navigate('/dash')
         } catch (error) {
             if (error.response) {
-                alert(error.response.data.message); // Show error message from backend
+                alert(error.response.data.message); 
             } else {
-                alert("An error occurred");
+                alert(error);
             }
         }
     };
