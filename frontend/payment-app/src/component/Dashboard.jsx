@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const [balance, setBalance] = useState(0);
-
+  const navigate = useNavigate()
   const fetchBalance = async () => {
     try {
       const token = localStorage.getItem("token");
   
       if (!token) {
-        alert("No token found, user not authenticated");
-        console.error("No token found, user not authenticated");
-        return;
+        navigate('/')
       }
   
       const res = await axios.get("http://localhost:3000/api/v1/account/getbalance", {
