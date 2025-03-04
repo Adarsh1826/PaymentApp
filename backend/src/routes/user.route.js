@@ -3,6 +3,7 @@ import {User} from "../model/user.model.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { isAuthenticated } from "../middleware/userAuth.js";
+
 const router = Router()
 router.post('/register',async(req,res)=>{
     const {username,password,firstname,lastname} = req.body
@@ -22,11 +23,12 @@ router.post('/register',async(req,res)=>{
     })
     //console.log(newUser);
     const token = await jwt.sign({id:newUser._id},process.env.JWT_SEC)
-    res.cookie("token",token,{
-        httpOnly:true,
-        expiresIn: 60000
-    })
+    // res.cookie("token",token,{
+    //     httpOnly:true,
+    //     expiresIn: 60000
+    // })
     res.status(200).json({
+        token,
         "message":"Registered Succeessfully"
     })
     
@@ -49,13 +51,14 @@ router.post('/login',async(req,res)=>{
     console.log(token);
     
     //console.log(isExist._id);
-    
-    res.cookie("token",token,{
-        httpOnly:true,
-        expiresIn: 60000
-    })
+ 
+    // res.cookie("token",token,{
+    //     httpOnly:true,
+    //     expiresIn: 60000
+    // })
     //console.log("Token "+token);
     res.status(201).json({
+        token,
         "message":"Logged in successfully"
     })
 })

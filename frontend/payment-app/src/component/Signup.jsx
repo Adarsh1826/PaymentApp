@@ -18,6 +18,7 @@ const Signup = () => {
         firstname:f,
         lastname:l
       })
+      localStorage.setItem("token",res.data.token)
       navigate('/dash')
     } catch (error) {
       alert(res.data.message)

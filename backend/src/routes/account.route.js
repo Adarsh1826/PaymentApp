@@ -16,7 +16,10 @@ router.get("/getbalance", isAuthenticated,async (req, res) => {
 
     //const balances = accounts.map(account => account.balance); // Extract balances
 
-    res.json({ balance:accounts.balance});
+    res.json({ 
+      balance:accounts.balance,
+      "message":"Login first"
+    });
   } catch (error) {
     console.error("Error fetching balances:", error);
     res.status(500).json({ error: error.message || "Internal Server Error" });

@@ -6,15 +6,27 @@ const Dashboard = () => {
 
   const fetchBalance = async () => {
     try {
+      const token = localStorage.getItem("token");
+  
+      if (!token) {
+        alert("No token found, user not authenticated");
+        console.error("No token found, user not authenticated");
+        return;
+      }
+  
       const res = await axios.get("http://localhost:3000/api/v1/account/getbalance", {
-        withCredentials: true, // send cookies/credentials
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
       });
-      setBalance(res.data.balance); // set just the balance value
+  
+      setBalance(res.data.balance);
     } catch (error) {
+      alert(res.data.message)
       console.error("Error fetching balance:", error);
     }
   };
-
+  
   useEffect(() => {
     fetchBalance();
   }, []);

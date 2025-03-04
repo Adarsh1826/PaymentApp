@@ -14,7 +14,7 @@ const Signin = () => {
                 username: username,
                 password: password
             });
-            console.log(res);
+            localStorage.setItem("token",res.data.token)
             
             navigate('/dash')
         } catch (error) {
