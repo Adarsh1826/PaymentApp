@@ -48,7 +48,7 @@ router.post('/login',async(req,res)=>{
         })
     }
     const token = await jwt.sign({id:isExist._id},process.env.JWT_SEC)
-    console.log(token);
+    //console.log(token);
     
     //console.log(isExist._id);
  
@@ -148,7 +148,12 @@ router.put('/updateLastname',isAuthenticated,async(req,res)=>{
     )
 }
 )
-router.post('/send',async(req,res)=>{
-    
+router.get('/usersget',isAuthenticated,async(req,res)=>{
+    const ress = await User.find({},'username')
+    const usernames = ress.map(i=>i.username)
+    res.status(200).json({
+        usernames,
+        "message":"All users fetched successfully"
+    })
 })
 export default router
