@@ -14,7 +14,7 @@ export const usersDetails = selector({
                     Authorization: `Bearer ${token}`
                 }
             });
-            return res.data.usernames; 
+            return res.data; 
         } catch (error) {
             console.error("Error fetching users:", error);
             return [];  

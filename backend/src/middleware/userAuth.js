@@ -8,7 +8,7 @@ const isAuthenticated = (req, res, next) => {
         }
         
         const decoded = jwt.verify(token, process.env.JWT_SEC);
-        req.adarsh = { userId: decoded.id }
+        req.user = { userId: decoded.id }
         //console.log(req.user);
         next();
     } catch (error) {

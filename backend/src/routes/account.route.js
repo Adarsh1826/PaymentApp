@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/getbalance", isAuthenticated,async (req, res) => {
   try {
-    const accounts = await Account.findOne({userId:req.adarsh.userId});
+    const accounts = await Account.findOne({userId:req.user.userId});
 
     if(!accounts){
       return res.status(411).json({
@@ -40,7 +40,11 @@ router.post('/send', isAuthenticated, async (req, res) => {
     }
     await Account.updateOne({ userId: req.user.userId }, { $inc: { balance: -am } });
     await Account.updateOne({ userId: to }, { $inc: { balance: am } });
-
+    console.log(am);
+    console.log(to);
+    console.log(req.user.userId);
+       
+    
     res.json({ message: "Transfer successful" });
   } catch (error) {
     res.status(500).json({ error: error.message || "Internal Server Error" });

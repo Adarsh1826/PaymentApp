@@ -152,7 +152,7 @@ router.get('/usersget', isAuthenticated, async (req, res) => {
     try {
         //console.log("User ID:", req.user.userId); 
 
-        const userId = new mongoose.Types.ObjectId(req.adarsh.userId);
+        const userId = new mongoose.Types.ObjectId(req.user.userId);
         const ress = await User.find({ _id: { $ne: userId } }, 'username');
 
         const usernames = ress.map(i => i.username);

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { usersDetails } from '../atoms/atom.js';
+import SendMoney from './SendMoney';
 
 const Users = () => {
-  const users = useRecoilValue(usersDetails); 
+  const users = useRecoilValue(usersDetails).usernames; 
+  const [selectedUser, setSelectedUser] = useState(null);
 
   return (
     <div className="bg-gray-50 dark:bg-gray-800 min-h-screen p-6">
@@ -24,7 +26,9 @@ const Users = () => {
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{username}</td>
                     <td className="px-6 py-4 text-center">
                       <button 
-                        className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded">
+                        className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
+                        onClick={() => setSelectedUser(username)}
+                      >
                         Send
                       </button>
                     </td>
@@ -39,6 +43,8 @@ const Users = () => {
           </table>
         </div>
       </div>
+
+      {selectedUser && <SendMoney recipient={selectedUser} onClose={() => setSelectedUser(null)} />}
     </div>
   );
 };
