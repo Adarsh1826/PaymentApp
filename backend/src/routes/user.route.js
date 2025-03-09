@@ -3,7 +3,7 @@ import {User} from "../model/user.model.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { isAuthenticated } from "../middleware/userAuth.js";
-
+import mongoose from "mongoose";
 const router = Router()
 router.post('/register',async(req,res)=>{
     const {username,password,firstname,lastname} = req.body
@@ -148,12 +148,26 @@ router.put('/updateLastname',isAuthenticated,async(req,res)=>{
     )
 }
 )
-router.get('/usersget',isAuthenticated,async(req,res)=>{
-    const ress = await User.find({},'username')
-    const usernames = ress.map(i=>i.username)
-    res.status(200).json({
-        usernames,
-        "message":"All users fetched successfully"
-    })
-})
+router.get('/usersget', isAuthenticated, async (req, res) => {
+    try {
+        //console.log("User ID:", req.user.userId); 
+
+        const userId = new mongoose.Types.ObjectId(req.adarsh.userId);
+        const ress = await User.find({ _id: { $ne: userId } }, 'username');
+
+        const usernames = ress.map(i => i.username);
+
+        res.status(200).json({
+            usernames,
+            message: "All users fetched successfully"
+        });
+    } catch (error) {
+        console.error("Database query error:", error);
+        res.status(500).json({
+            message: "Error fetching users",
+            error: error.message
+        });
+    }
+});
+
 export default router

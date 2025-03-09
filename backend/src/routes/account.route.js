@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/getbalance", isAuthenticated,async (req, res) => {
   try {
-    const accounts = await Account.findOne({userId:req.user.userId});
+    const accounts = await Account.findOne({userId:req.adarsh.userId});
 
     if(!accounts){
       return res.status(411).json({

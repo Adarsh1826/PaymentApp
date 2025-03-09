@@ -14,10 +14,10 @@ export const usersDetails = selector({
                     Authorization: `Bearer ${token}`
                 }
             });
-            return res.data.usernames;  // ✅ Extract only usernames
+            return res.data.usernames; 
         } catch (error) {
             console.error("Error fetching users:", error);
-            return [];  // ✅ Return empty array on error
+            return [];  
         }
     }
 });
