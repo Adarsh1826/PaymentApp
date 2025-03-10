@@ -9,7 +9,7 @@ export const usersDetails = selector({
             throw new Error("Invalid Token");
         }
         try {
-            const res = await axios.get("http://localhost:3000/api/v1/user/usersget", {
+            const res = await axios.get("https://paymentapp-4-02cn.onrender.com/api/v1/user/usersget", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -29,7 +29,7 @@ export const balanceDetails = selector({
         if(!token){
             throw new Error("Invalid Token");
         }
-        const res = await axios.get("http://localhost:3000/api/v1/account//getbalance",{
+        const res = await axios.get("https://paymentapp-4-02cn.onrender.com/api/v1/account/getbalance",{
             headers:{
                 Authorization: `Bearer ${token}`
             }
