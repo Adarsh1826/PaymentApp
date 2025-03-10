@@ -13,7 +13,7 @@ const Signup = () => {
 
   const auth = async () => {
     try {
-      const res = await axios.post("https://paymentapp-4-02cn.onrender.com/api/v1/user/register", {
+      const res = await axios.post("http://localhost:3000/api/v1/user/register", {
         username: username,
         password: pass,
         firstname: f,

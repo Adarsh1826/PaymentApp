@@ -47,6 +47,8 @@ router.post('/login',async(req,res)=>{
             "message":"Invalid credentials"
         })
     }
+    
+    
     const token = await jwt.sign({id:isExist._id},process.env.JWT_SEC)
     //console.log(token);
     
