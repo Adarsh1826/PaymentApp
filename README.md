@@ -81,8 +81,8 @@ The frontend will run on **`http://localhost:5173`** and the backend on **`http:
 - `POST /api/v1/user/login` → Login and receive a token
 
 ### **User & Transactions**
-- `GET /api/v1/users` → Get a list of users
-- `POST /api/v1/transactions/send` → Send money to another user
+- `GET /api/v1/account/getbalance` → Get a list of users
+- `POST /api/v1/account/send` → Send money to another user
 
 ---
 
