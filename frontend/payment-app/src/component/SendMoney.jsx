@@ -3,70 +3,72 @@ import React, { useState } from "react";
 
 const SendMoney = ({ recipient, onClose }) => {
   const [amount, setAmount] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const sendMoney = async () => {
+  const handleSendMoney = async () => {
+    setMessage("");
+    
+    if (!amount || isNaN(amount) || amount <= 0) {
+      setMessage("Enter a valid amount.");
+      return;
+    }
+    setLoading(true);
     try {
-      setLoading(true);
-      const res = await axios.post("http://localhost:3000/api/v1/account/send", {
-        to: recipient,
-        am: amount,
-      });
+      const token = localStorage.getItem("token"); 
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/account/send",
+        { to: recipient, am: amount },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-      alert(`Amount sent: ${amount}`); // This will now always run
+      setMessage(response.data.message || "Money sent successfully!");
     } catch (error) {
-      console.error("Error sending money:", error);
-      alert("Transaction failed!");
+      setMessage(error.response?.data?.message || "Transaction failed.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await sendMoney();
-    onClose();
-  };
-
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 text-center">
           Send Money
         </h2>
-        <p className="text-gray-700 dark:text-gray-300">
-          Recipient: <strong>{recipient}</strong>
+        
+        <p className="text-center text-gray-600 dark:text-gray-300 mb-4">
+          Sending to <span className="font-bold">{recipient}</span>
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-4">
-          <label className="block text-gray-700 dark:text-gray-300 mb-2">
-            Amount
-          </label>
-          <input
-            type="number"
-            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
-          />
-          <div className="flex justify-end mt-4">
-            <button
-              type="button"
-              className="bg-gray-400 hover:bg-gray-500 text-white py-1 px-3 rounded mr-2"
-              onClick={onClose}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded disabled:opacity-50"
-              disabled={loading}
-            >
-              {loading ? "Sending..." : "Send"}
-            </button>
-          </div>
-        </form>
+        <input
+          type="number"
+          placeholder="Enter amount"
+          className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+
+        {message && <p className="mt-3 text-center text-sm text-green-500">{message}</p>}
+
+        <div className="flex justify-between mt-4">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={handleSendMoney}
+            className={`px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={loading}
+          >
+            {loading ? "Processing..." : "Send"}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,37 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from "react-router-dom";
-
+import {balanceDetails } from "../atoms/atom.js"
+import { useRecoilValue } from 'recoil';
 const Balance = () => {
-  const [balance, setBalance] = useState(0);
-  const navigate = useNavigate();
-
-  const fetchBalance = async () => {
-    try {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        navigate('/');
-        return;
-      }
-
-      const res = await axios.get("http://localhost:3000/api/v1/account/getbalance", {
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
-      });
-
-      setBalance(res.data.balance);
-    } catch (error) {
-      alert(error.response?.data?.message || "Error fetching balance");
-      console.error("Error fetching balance:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchBalance();
-  }, [navigate]);
-
+  const balance = useRecoilValue(balanceDetails)
   return (
     <div className="bg-gray-50 dark:bg-gray-800 p-6">
       <div className="max-w-lg mx-auto ml-24 bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">

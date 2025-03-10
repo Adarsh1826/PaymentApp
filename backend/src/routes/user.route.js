@@ -152,13 +152,13 @@ router.get('/usersget', isAuthenticated, async (req, res) => {
     try {
         //console.log("User ID:", req.user.userId); 
 
-        const userId = new mongoose.Types.ObjectId(req.user.userId);
-        const ress = await User.find({ _id: { $ne: userId } }, 'username');
+        //const userId = new mongoose.Types.ObjectId(req.user.userId);
+        const ress = await User.find({ _id: { $ne: req.user.userId } });
 
-        const usernames = ress.map(i => i.username);
+        //const usernames = ress.map(i => i.username);
 
         res.status(200).json({
-            usernames,
+            ress,
             message: "All users fetched successfully"
         });
     } catch (error) {

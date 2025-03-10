@@ -14,10 +14,26 @@ export const usersDetails = selector({
                     Authorization: `Bearer ${token}`
                 }
             });
-            return res.data; 
+            return res.data.ress; 
         } catch (error) {
             console.error("Error fetching users:", error);
             return [];  
         }
     }
 });
+
+export const balanceDetails = selector({
+    key:"balanceDetails",
+    get:async()=>{
+        const token = localStorage.getItem("token")
+        if(!token){
+            throw new Error("Invalid Token");
+        }
+        const res = await axios.get("http://localhost:3000/api/v1/account//getbalance",{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res.data.balance
+    }
+})

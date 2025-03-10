@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { usersDetails } from '../atoms/atom.js';
 import SendMoney from './SendMoney';
-
+import { useNavigate } from 'react-router-dom';
 const Users = () => {
-  const users = useRecoilValue(usersDetails).usernames; 
+  const users = useRecoilValue(usersDetails) 
   const [selectedUser, setSelectedUser] = useState(null);
+  const navigate = useNavigate()
 
   return (
     <div className="bg-gray-50 dark:bg-gray-800 min-h-screen p-6">
@@ -21,13 +22,13 @@ const Users = () => {
             </thead>
             <tbody>
               {users.length > 0 ? (
-                users.map((username, index) => (
+                users.map((us, index) => (
                   <tr key={index} className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{username}</td>
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{us.username}</td>
                     <td className="px-6 py-4 text-center">
                       <button 
                         className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
-                        onClick={() => setSelectedUser(username)}
+                       onClick={() => setSelectedUser(us._id)}
                       >
                         Send
                       </button>
@@ -43,9 +44,10 @@ const Users = () => {
           </table>
         </div>
       </div>
-
-      {selectedUser && <SendMoney recipient={selectedUser} onClose={() => setSelectedUser(null)} />}
-    </div>
+      {selectedUser && (
+        <SendMoney recipient={selectedUser} onClose={() => setSelectedUser(null)} />
+      )} 
+      </div>
   );
 };
 
