@@ -118,3 +118,6 @@ Contributions are welcome! Feel free to fork the repository and create a pull re
 📧 Email: adsdevvs@gmail.com
 🔗 GitHub: [https://github.com/Adarsh1826]
 
+## Login credentials
+## username : user1
+## password: 1234
