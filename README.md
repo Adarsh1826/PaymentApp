@@ -96,8 +96,8 @@ The frontend will run on **`http://localhost:5173`** and the backend on **`http:
 ## 📌 Folder Structure
 ```sh
 /payment-app
- ├── /backend   # Frontend (React + Vite + Recoil)
- ├── /frontend/payment-app   # Backend (Node + Express + MongoDB)
+ ├── /backend   # Frontend (Nodejs+Express+Recoil+Mongodb)
+ ├── /frontend/payment-app   # Backend (React)
  ├── README.md # Project Documentation
 ```
 
